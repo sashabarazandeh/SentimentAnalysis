@@ -10,11 +10,6 @@ from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction import IfidVectorizer
 from sklearn.model_selection import train_test_split
 import re
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score 
 
-def main():
-    pass
-
-
-if __name__ == "__main__":        
-    main()
+# This class is used to train the model
