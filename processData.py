@@ -28,5 +28,8 @@ def collectData():
     train_value, train_review = productReviews['Sentiment'], productReviews['Review']
     test_Value, test_review = testReviews['Sentiment'], testReviews['Review']
 
+    # Convert train_review into values of integers using tokenizer
+    tokenizer = Tokenizer(num_words=10000, oov_token='<OOV>')
+
     
 collectData()
