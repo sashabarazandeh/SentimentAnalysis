@@ -14,7 +14,7 @@ from sklearn.metrics import accuracy_score
 
 # This class is used to train the model
 
-def setupModel():
+def setupModel(train_review):
     model = Sequential()
     model.add(Embedding(input_dim=25000, output_dim=16, input_length=200))
     model.add(Bidirectional(LSTM(32, return_sequences=True)))
@@ -33,9 +33,9 @@ def trainModel():
     try:
         train_review, train_values, test_review, test_values = procData.preProcessData()
         train_review, val_review, train_values, val_values = train_test_split(train_review, train_values, test_size=0.2, random_state=42)
-        model = setupModel()
+        model = setupModel(train_review)
         early_stopping = EarlyStopping(monitor='val_loss', patience=2, restore_best_weights=True)
-        trainedModel = model.fit(train_review, train_values, epochs=10, batch_size=32, validation_data=(val_review, val_values), callbacks=[early_stopping], verbose=2)        
+        trainedModel = model.fit(train_review, train_values, epochs=12, batch_size=32, validation_split=0.2)        
         loss, accuracy = model.evaluate(test_review, test_values, verbose=2)
         print(f'Test Accuracy: {accuracy} and loss {loss}')
         # Save the model and tokenizer if training is successful
