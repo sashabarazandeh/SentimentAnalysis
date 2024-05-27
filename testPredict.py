@@ -17,19 +17,23 @@ with open('tokenizer.pickle', 'rb') as handle:
 def predictSentiment(text):
        # Tokenize and pad the input text
     text_sequence = tokenizer.texts_to_sequences([text])
-    text_sequence = pad_sequences(text_sequence, maxlen=100)
+    print(f'Text Sequence: {text_sequence}')
+    
+    text_sequence = pad_sequences(text_sequence, maxlen=200)
+    print(f'Padded Sequence: {text_sequence}')
 
     # Make a prediction using the trained model
-    predicted_rating = model.predict(text_sequence)[0]
-    print(predicted_rating)
-    if np.argmax(predicted_rating) < 0.5:
-        return 'Negative'
-    else:
+    predicted_rating = model.predict(text_sequence)
+    print('Predicted Rating: ', predicted_rating)
+    if predicted_rating >= 0.5:
         return 'Positive'
+    else:
+        return 'Negative'
 def main():
     text_input = input("Enter review: ")
+   # text_input = "I love this battery, it works really well and lasts for a long time. It seems to be a good purchase"
     predictedSent = predictSentiment(text_input)
-    print(predictedSent)
+    print(f'Your sentiment is: {predictedSent}')
 
 
 main()
