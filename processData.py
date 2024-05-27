@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-import re
+from collections import Counter
 
 
 #initialize tokenizer
@@ -20,14 +20,19 @@ def tokenizeAndPadData(value, review):
     tokenizer = Tokenizer(num_words=10000, oov_token='<OOV>')
     tokenizer.fit_on_texts(review) # break up words into tokens and create word index
     wordIndex = tokenizer.word_index #set word index
+    print(f'word index max {max(wordIndex.values())}')
     sequences = tokenizer.texts_to_sequences(review)
     padded_sequences = pad_sequences(sequences, maxlen= 250)
     sentimentValues = pd.get_dummies(value).values
     return padded_sequences, sentimentValues
 
 def collectData():
-    productReviews = pd.read_csv("dataset/train.csv") 
-    testReviews = pd.read_csv("dataset/test.csv") 
+    productReviews = pd.read_csv("dataset/train.csv", nrows = 4500) 
+    testReviews = pd.read_csv("dataset/test.csv", nrows =  4500) 
+
+    print(f'Length of train.csv {len(productReviews)}')
+    print(f'Length of test.csv: {len(testReviews)}')
+          
     # Columns arent named initially for this dataset, so name them appropriately
     productReviews.columns = ['Sentiment', 'Title', 'Review']
     testReviews.columns = ['Sentiment', 'Title', 'Review']
@@ -37,8 +42,11 @@ def collectData():
     # We only care about the sentiment and the actual review, the title isn't as important as it is sort of like a 'second shorter' review
     train_value, train_review = productReviews['Sentiment'], productReviews['Review']
     test_value, test_review = testReviews['Sentiment'], testReviews['Review']
-    #train_review = train_review.lower()
-    #test_review = test_review.lower()
+
+
+    print(f'Counter: {Counter(train_value)}')
+    print(f'Counter: {Counter(test_value)}')
+
     padTrainReview, padTrainValue = tokenizeAndPadData(train_value, train_review)
     padTestReview, padTestValue = tokenizeAndPadData(test_value, test_review)
     return padTrainReview, padTrainValue, padTestReview, padTestValue, tokenizer
