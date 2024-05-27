@@ -42,7 +42,7 @@ def tokenizeAndPadData(value, review, trainOrTest):
 
 def collectData():
     productReviews = pd.read_csv("dataset/train.csv", nrows = 4500) 
-    testReviews = pd.read_csv("dataset/test.csv", nrows =  4500) 
+    testReviews = pd.read_csv("dataset/test.csv", nrows =  900) 
           
     # Columns arent named initially for this dataset, so name them appropriately
     productReviews.columns = ['Sentiment', 'Title', 'Review']
