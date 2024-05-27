@@ -11,6 +11,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 
 model = keras.models.load_model('sentModel.keras')
+model.summary()
 with open('tokenizer.pickle', 'rb') as handle:
     tokenizer = pickle.load(handle)
     
@@ -19,7 +20,7 @@ def predictSentiment(text):
     text_sequence = tokenizer.texts_to_sequences([text])
     print(f'Text Sequence: {text_sequence}')
     
-    text_sequence = pad_sequences(text_sequence, maxlen=200)
+    text_sequence = pad_sequences(text_sequence, maxlen=200, truncating='post')
     print(f'Padded Sequence: {text_sequence}')
 
     # Make a prediction using the trained model
