@@ -17,7 +17,7 @@ from sklearn.metrics import accuracy_score
 
 def setupModel(train_review):
     model = Sequential()
-    model.add(Embedding(input_dim=51126, output_dim=100, input_length=150))
+    model.add(Embedding(input_dim=50000, output_dim=100, input_length=150))
     model.add(GlobalAveragePooling1D())
     model.add(Dense(16, activation = 'relu'))
     model.add(Dense(1, activation='sigmoid')) # Sigmoid layer commonly used for binary classification problems, which is what we are dealing with
@@ -31,7 +31,7 @@ def trainModel():
         train_review, train_values, test_review, test_values = procData.preProcessData()
         model = setupModel(train_review)
         early_stopping = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True) # here for testing, and to prevent overfitting but not needed
-        trainedModel = model.fit(train_review, train_values, epochs=30, batch_size=32, validation_split=0.2, callbacks=[early_stopping])        
+        trainedModel = model.fit(train_review, train_values, epochs=10, batch_size=32, validation_split=0.2, callbacks=[early_stopping])        
         loss, accuracy = model.evaluate(test_review, test_values, verbose=2)
         print(f'Test Accuracy: {accuracy} and loss {loss}')
         # Save the model and tokenizer if training is successful
