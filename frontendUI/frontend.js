@@ -23,5 +23,35 @@ function analyzeSentiment() {
         console.error('Error:', error);
         resultDiv.innerText = 'Error analyzing sentiment';
     });
+}
+function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const uploadResult = document.getElementById('uploadResult');
+    const formData = new FormData();
 
+    if (fileInput.files.length === 0) {
+        uploadResult.innerText = 'Please select a file first.';
+        return;
+    }
+
+    formData.append('file', fileInput.files[0]);
+
+    fetch('http://localhost:5000/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Received data: ', data); // For debugging
+        if (data.sentiment) {
+            uploadResult.innerText = `Sentiment: ${data.sentiment}`;
+            up
+        } else {
+            uploadResult.innerText = 'Error uploading file.';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        uploadResult.innerText = 'Error uploading file.';
+    });
 }

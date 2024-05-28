@@ -39,6 +39,11 @@ def analyzeManualSentiment():
     print(f'Sentiment was: {sentiment}')
     return jsonify({'sentiment': sentiment})
 
+def analyzeFileSentiment(file_path):
+    pass
+
+
+@app.route('/uploadFile', methods=['POST'])
 def analyzeFileSentimentInfo():
     pass
 

@@ -13,7 +13,9 @@ model = keras.models.load_model('sentModel.keras')
 model.summary()
 with open('tokenizer.pickle', 'rb') as handle:
     tokenizer = pickle.load(handle)
-    
+with open('model_history.pkl', 'rb') as handle:
+    modHist = pickle.load(handle)
+
 def predictSentiment(text):
     # Tokenize and pad the input text
     text_sequence = tokenizer.texts_to_sequences([text])
@@ -34,6 +36,6 @@ def main():
    # text_input = "I love this battery, it works really well and lasts for a long time. It seems to be a good purchase"
     predictedSent = predictSentiment(text_input)
     print(f'Your sentiment is: {predictedSent}')
-
+    print(f"Model History: Training Accuracy: {modHist['accuracy']}, \n Validation Accuracy: {modHist['val_accuracy']}, \n Training Loss: {modHist['loss']}, \n Validation Loss: {modHist['val_loss']}")
 
 main()

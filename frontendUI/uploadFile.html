@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Upload File</h1>
+        <form id="Analyze File" enctype="multipart/form-data">
+            <input type="file" id="fileInput" name="file">
+            <button type="button" onclick="analyzeFile()">Upload</button>
+        </form>
+        <div id="uploadResult"></div>
+    </div>
+    <script src="frontend.js"></script>
+</body>
+</html>
