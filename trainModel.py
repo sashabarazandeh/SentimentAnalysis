@@ -17,7 +17,7 @@ from sklearn.metrics import accuracy_score
 
 def setupModel(train_review):
     model = Sequential()
-    model.add(Embedding(input_dim=50000, output_dim=100, input_length=150))
+    model.add(Embedding(input_dim=50000, output_dim=100, input_length=200))
     model.add(GlobalAveragePooling1D())
     model.add(Dense(16, activation = 'relu'))
     model.add(Dense(1, activation='sigmoid')) # Sigmoid layer commonly used for binary classification problems, which is what we are dealing with

@@ -45,7 +45,7 @@ def tokenizeAndPadData(value, review, trainOrTest):
         wordIndex = tokenizer.word_index #set word index
         print(f'word index max {max(wordIndex.values())}')
         sequences = tokenizer.texts_to_sequences(review)
-        padded_sequences = pad_sequences(sequences, maxlen= 150, truncating='post')
+        padded_sequences = pad_sequences(sequences, maxlen= 200, truncating='post')
         sentimentValues = binaryValues.values
         #print(padded_sequences, sentimentValues[:20])
         with open('tokenizer.pickle', 'wb') as handle:
@@ -60,8 +60,8 @@ def tokenizeAndPadData(value, review, trainOrTest):
     return padded_sequences, sentimentValues
 
 def collectData():
-    productReviews = pd.read_csv("dataset/train.csv", nrows = 80000) 
-    testReviews = pd.read_csv("dataset/test.csv", nrows = 30000) 
+    productReviews = pd.read_csv("dataset/train.csv", nrows = 100000) 
+    testReviews = pd.read_csv("dataset/test.csv", nrows = 40000) 
           
     # Columns arent named initially for this dataset, so name them appropriately
     productReviews.columns = ['Sentiment', 'Title', 'Review']
