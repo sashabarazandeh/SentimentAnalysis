@@ -1,7 +1,6 @@
 # Imports and Libraries
 import pandas as pd
 import numpy as np
-import seaborn as sns
 import tensorflow as tf
 import keras
 import pickle as pickle
@@ -16,7 +15,7 @@ with open('tokenizer.pickle', 'rb') as handle:
     tokenizer = pickle.load(handle)
     
 def predictSentiment(text):
-       # Tokenize and pad the input text
+    # Tokenize and pad the input text
     text_sequence = tokenizer.texts_to_sequences([text])
     print(f'Text Sequence: {text_sequence}')
     
