@@ -2,12 +2,15 @@
 import pandas as pd
 import numpy as np
 import tensorflow as tf
+import matplotlib.pyplot as plt
+from collections import Counter
 import keras
 import pickle as pickle
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from graphSentiment import plotSentimentBar, plotSentimentPie
 
 app = Flask(__name__)
 CORS(app)
@@ -40,12 +43,45 @@ def analyzeManualSentiment():
     return jsonify({'sentiment': sentiment})
 
 def analyzeFileSentiment(file_path):
-    pass
+    sentimentList = []
+    positiveNumber = 0
+    negativeNumber = 0
+    with open(file_path, 'r', encoding='UTF-8') as reviews:
+        for review in reviews:
+            text = review.strip()
+            if text:
+                sentiment = analyzeText(text)
+                if sentiment == 'Positive':
+                    positiveNumber += 1
+                else:
+                    negativeNumber += 1
+                sentimentList.append(sentiment)
+    totalReviews = positiveNumber + negativeNumber
+    positivePercent = 100*(positiveNumber/totalReviews)
+    negativePercent = 100*(negativeNumber/totalReviews)
+    truncatePos = int(positivePercent)
+    truncateNeg = int(negativePercent)
+    positivePercent = (truncatePos/100)
+    negativePercent = (truncateNeg/100)
+    plotSentimentBar(positiveNumber, negativeNumber)
+    plotSentimentPie(positiveNumber, negativeNumber)
+    barPng = 'Bar_Graph.png'
+    piePng = 'Pie_Chart.png'
+    return sentimentList, positivePercent*100, negativePercent*100, barPng, piePng
 
 
-@app.route('/uploadFile', methods=['POST'])
+@app.route('/upload', methods=['POST'])
 def analyzeFileSentimentInfo():
-    pass
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part in the request'}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    if file:
+        file_path = 'uploaded_file.txt'
+        file.save(file_path)
+        sentimentList, positivePercent, negativePercent, barPng, piePng = analyzeFileSentiment(file_path)
+        return jsonify({'sentiments': sentimentList}, {'positive': positivePercent}, {'negative': negativePercent}, {'barPng': barPng}, {'piePng': piePng})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -24,10 +24,19 @@ function analyzeSentiment() {
         resultDiv.innerText = 'Error analyzing sentiment';
     });
 }
+function newPageToUpload(){
+    window.location.href = 'uploadFile.html'
+}
+function backToIndex(){
+    window.location.href = 'index.html'
+}
 function uploadFile() {
     const fileInput = document.getElementById('fileInput');
     const uploadResult = document.getElementById('uploadResult');
     const formData = new FormData();
+    const barPng = document.getElementById('barPng');
+    const piePng = document.getElementById('piePng');
+
 
     if (fileInput.files.length === 0) {
         uploadResult.innerText = 'Please select a file first.';
@@ -43,9 +52,16 @@ function uploadFile() {
     .then(response => response.json())
     .then(data => {
         console.log('Received data: ', data); // For debugging
-        if (data.sentiment) {
-            uploadResult.innerText = `Sentiment: ${data.sentiment}`;
-            up
+        if (data) {
+            uploadResult.innerText = `Sentiments: ${data[1].positive}% positive, ${data[2].negative}% negative`;
+            if (data[3].barPng) {
+                barPng.src = `${data[3].barPng}`;
+                barPng.style.display = 'block'
+            }
+            if (data[4].piePng){
+                piePng.src = `${data[4].piePng}`;
+                piePng.style.display='block';
+            }
         } else {
             uploadResult.innerText = 'Error uploading file.';
         }
