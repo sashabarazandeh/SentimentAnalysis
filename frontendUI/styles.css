@@ -7,20 +7,23 @@ body {
     margin: 0;
     background-color: #110000;
 }
-
+.largecontainer {
+  display: flex;
+  flex-direction: column;
+}
 .container {
     text-align: center;
     background: rgb(233, 65, 166);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 300px; 
+    margin-bottom: 20px; 
 }
 .graphcontainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   width: auto;
   padding: 20px;
