@@ -8,7 +8,6 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 
-
 model = keras.models.load_model('sentModel.keras')
 model.summary()
 with open('tokenizer.pickle', 'rb') as handle:
